@@ -1,20 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React, { useEffect } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import AppProvider from "./src/Context/Provider";
+import SignIn from "./src/Screens/SignIn";
+import SiginUp from "./src/Screens/SiginUp";
+import LandingPage from "./src/Screens/LandingPage";
+import Nagivation from "./src/Screens/Nagivation";
 
 export default function App() {
+  useEffect(() => {
+    // console.log("----", User);
+  }, []);
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <AppProvider>
+      {/* <View style={styles.container}> */}
       <StatusBar style="auto" />
-    </View>
+      <SignIn />
+      {/* </View> */}
+    </AppProvider>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
