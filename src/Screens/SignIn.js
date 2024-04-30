@@ -10,11 +10,10 @@ import {
 } from "react-native";
 import { AppContext } from "../Context/Provider";
 import { ToastAndroid } from "react-native";
-
-function SignIn() {
-  const { SignInUsers, FetchUsers, UsersData, isLoading, User } =
-    useContext(AppContext);
-
+import { styles } from "../Style/Sigin";
+import Icon from "react-native-vector-icons/FontAwesome";
+function SignIn({ navigation }) {
+  const { SignInUsers } = useContext(AppContext);
   const [UserInputs, setUserInputs] = useState({ email: "", password: "" });
   const handlePress = (name) => (enterValue) => {
     setUserInputs({ ...UserInputs, [name]: enterValue });
@@ -23,11 +22,7 @@ function SignIn() {
   const handleSignIn = async () => {
     await SignInUsers(UserInputs);
   };
-  useEffect(() => {
-    FetchUsers();
-  }, []);
 
-  useEffect(() => {}, [UsersData]); // Execute the effect whenever UsersData changes
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -62,65 +57,32 @@ function SignIn() {
           <Text style={styles.button}> Sign in</Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.horizontalLineContainer}>
+        <View style={styles.horizontalLine}></View>
+        <Text style={styles.horizontalLineText}>OR</Text>
+        <View style={styles.horizontalLine}></View>
+      </View>
+      <TouchableOpacity style={styles.accountContainer}>
+        <Icon name="google" size={30} color="#fff" />
+        <Text style={{ color: "white", fontSize: 18 }}>
+          Continuous with Google
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.accountContainer}>
+        <Icon name="apple" size={30} color="#fff" />
+        <Text style={{ color: "white", fontSize: 18 }}>
+          Continuous with Apple
+        </Text>
+      </TouchableOpacity>
+      <View style={styles.dontHaveAnAccount}>
+        <Text style={{ color: "white", fontSize: 16 }}>
+          If you dont have an account?{" "}
+        </Text>
+        <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+          <Text style={styles.SignUpbutton}> Sign Up</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#e5e5f6",
-    ...StyleSheet.absoluteFillObject,
-    // alignItems: "center",
-    // justifyContent: "center",
-  },
-  image: {
-    width: "30%", // Adjust the width as needed
-    aspectRatio: 1,
-  },
-  imageContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  loginContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  welcome: {
-    // fontFamily: "Helvetica",
-    fontWeight: "normal",
-    marginVertical: 15,
-  },
-  login: {
-    // fontFamily: "Helvetica",
-    fontWeight: "900",
-    fontSize: 30,
-  },
-  inputText: {
-    width: "90%",
-    height: 45,
-    // borderColor: "gray",
-    // borderWidth: 1,
-    borderRadius: 6,
-    padding: 10,
-    marginVertical: 10,
-    backgroundColor: "#fff",
-    color: "#000",
-  },
-  buttonContainer: {
-    width: "97%",
-    borderRadius: 6,
-    padding: 10,
-    marginVertical: 10,
-  },
-  button: {
-    backgroundColor: "#EA64D9",
-    padding: 10,
-    borderRadius: 10,
-    marginVertical: 10,
-    color: "#ffffff",
-    fontSize: 20,
-    textAlign: "center",
-    marginHorizontal: 6,
-  },
-});
 export default SignIn;

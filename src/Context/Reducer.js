@@ -1,6 +1,7 @@
 import {
   FETCH_USERS,
   FETCH_USERS_LOADING,
+  LOGOUT,
   SIGN_IN_BEGGING,
   SIGN_IN_END,
 } from "./Actions";
@@ -33,6 +34,13 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       UsersData: payload.data,
+    };
+  }
+  if (type === LOGOUT) {
+    return {
+      ...state,
+
+      User: null,
     };
   }
 
