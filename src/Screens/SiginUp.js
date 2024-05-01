@@ -29,9 +29,13 @@ function SiginUp() {
   };
 
   const handleSignIn = async () => {
-    await SignUpUsers(UserInputs);
-
-    // navigation.navigate("SignIn");
+    const result = await SignUpUsers(UserInputs);
+    console.log(result);
+    setTimeout(() => {
+      if (result?.status === "success") {
+        navigation.navigate("SignIn");
+      }
+    }, 2000);
   };
 
   return (

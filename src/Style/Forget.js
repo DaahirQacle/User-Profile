@@ -15,7 +15,6 @@ export const styles = StyleSheet.create({
   imageContainer: {
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: -80,
   },
   loginContainer: {
     alignItems: "center",

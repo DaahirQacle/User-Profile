@@ -132,17 +132,88 @@ const AppProvider = ({ children }) => {
       );
 
       if (res.data.status === "success") {
-        return Toast.show({
+        Toast.show({
           type: "success",
           text1: "Success",
           text2: res.data.message,
         });
+        return res.data;
       } else if (res.data.status === "failed") {
         return Toast.show({
           type: "error",
           text1: "Error",
           text2: res.data.message,
         });
+      }
+    } catch (error) {
+      // Check if error response is available and status is 401
+      if ((error.response && error.response.status === 401) || 400) {
+        // You can also check error.response.data.message if API provides specific messages
+
+        return Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: error.response.data.message || "Something went wrong",
+        });
+      }
+    }
+  };
+
+  const GetOPT = async (response) => {
+    try {
+      const res = await axios.post(
+        "http://10.111.10.15:1000/api/v1/users/forgetPassword",
+        response
+      );
+
+      if (res.data.status === "success") {
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: res.data.message,
+        });
+        return res.data;
+      } else if (res.data.status === "failed") {
+        return Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: res.data.message,
+        });
+      }
+    } catch (error) {
+      // Check if error response is available and status is 401
+      if ((error.response && error.response.status === 401) || 400) {
+        // You can also check error.response.data.message if API provides specific messages
+
+        return Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: error.response.data.message || "Something went wrong",
+        });
+      }
+    }
+  };
+  const ResetPassword = async (response) => {
+    try {
+      const res = await axios.post(
+        "http://10.111.10.15:1000/api/v1/users/ResetPassword",
+        response
+      );
+
+      if (res.data.status === "success") {
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: res.data.message,
+        });
+        return res.data;
+      } else if (res.data.status === "failed") {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: res.data.message,
+        });
+        return res.data;
       }
     } catch (error) {
       // Check if error response is available and status is 401
@@ -176,6 +247,8 @@ const AppProvider = ({ children }) => {
         FetchUsers,
         logout,
         SignUpUsers,
+        GetOPT,
+        ResetPassword,
       }}
     >
       {children}

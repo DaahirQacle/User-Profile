@@ -12,6 +12,7 @@ import { AppContext } from "../Context/Provider";
 import { ToastAndroid } from "react-native";
 import { styles } from "../Style/Sigin";
 import Icon from "react-native-vector-icons/FontAwesome";
+import EmailIcon from "react-native-vector-icons/MaterialCommunityIcons";
 function SignIn({ navigation }) {
   const { SignInUsers } = useContext(AppContext);
   const [UserInputs, setUserInputs] = useState({ email: "", password: "" });
@@ -37,20 +38,44 @@ function SignIn({ navigation }) {
         <Text style={styles.welcome}>welcome Back</Text>
       </View>
       <View style={styles.loginContainer}>
-        <TextInput
-          style={styles.inputText}
-          placeholder="Email"
-          value={UserInputs.email}
-          keyboardType="email-address"
-          onChangeText={handlePress("email")}
-        />
-        <TextInput
-          style={styles.inputText}
-          placeholder="******"
-          value={UserInputs.password}
-          secureTextEntry={true}
-          onChangeText={handlePress("password")}
-        />
+        <View style={styles.ViewinputText}>
+          <EmailIcon
+            name="email-outline"
+            size={15}
+            color="#ccc"
+            style={{ marginRight: 5, marginTop: 5 }}
+          />
+          <TextInput
+            style={styles.inputText}
+            placeholder="Email"
+            value={UserInputs.email}
+            keyboardType="email-address"
+            onChangeText={handlePress("email")}
+          />
+        </View>
+
+        <View style={styles.ViewinputText}>
+          <EmailIcon
+            name="lock-outline"
+            size={15}
+            color="#ccc"
+            style={{ marginRight: 5, marginTop: 5 }}
+          />
+          <TextInput
+            style={styles.inputText}
+            placeholder="password"
+            value={UserInputs.password}
+            secureTextEntry={true}
+            onChangeText={handlePress("password")}
+          />
+        </View>
+      </View>
+      <View style={styles.forget}>
+        <TouchableOpacity onPress={() => navigation.navigate("OTP")}>
+          <Text style={{ color: "#991b1b", fontSize: 18 }}>
+            Forget Password
+          </Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleSignIn}>
