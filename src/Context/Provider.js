@@ -80,47 +80,30 @@ const AppProvider = ({ children }) => {
       }
     }
   };
-  // const SignInUsers = async (response) => {
-  //   try {
-  //     const res = await axios.post(
-  //       "http://10.111.10.15:1000/api/v1/users/login",
-  //       response
-  //     );
 
-  //     if (res.data.status === "success") {
-  //       // Assuming the token is returned in res.data.token
-  //       await AsyncStorage.setItem("userToken", JSON.stringify(res?.data)); // Storing the token
-
-  //       ToastAndroid.show(res.data.message, ToastAndroid.SHORT);
-  //       dispatch({ type: SIGN_IN_END, payload: { res: res.data } });
-  //       // setTimeout(() => {
-  //       //   navigation.navigate("Welcome");
-  //       // }, 3000);
-  //       return res.data;
-  //     } else if (res.data.status === "failed") {
-  //       return ToastAndroid.show(res.data.message, ToastAndroid.SHORT);
-  //     }
-  //   } catch (error) {
-  //     // Check if error response is available and status is 401
-  //     if ((error.response && error.response.status === 401) || 400 || 429) {
-  //       // You can also check error.response.data.message if API provides specific messages
-  //       return ToastAndroid.show(
-  //         error.response.data.message ||
-  //           "Too many login attempts. Please try again after 30 seconds.",
-  //         ToastAndroid.SHORT
-  //       );
-  //     }
-  //   }
-  // };
   const FetchUsers = async () => {
     dispatch({ type: FETCH_USERS_LOADING });
     try {
-      const data = await axios.get("http://10.111.10.15:1000/api/v1/users"); // Store the response in a variable
+      const response = await axios.get("http://10.111.10.15:1000/api/v1/users");
+      const data = response.data; // Extract data from response
+
       dispatch({ type: FETCH_USERS, payload: { data } });
-      //   console.log("--data--", data);
     } catch (error) {
-      console.error(error); // Log any errors that occur
-      throw error; // Rethrow the error to handle it in the calling code
+      if (error.response) {
+        if (error.response.status === 401) {
+          console.log(error.response.data.message);
+          // Handle 401 Unauthorized error
+        } else if (error.response.status === 400) {
+          console.log(error.response.data.message);
+          // Handle 400 Bad Request error separately if needed
+        } else {
+          console.log("Other error:", error.response.data.message);
+          // Handle other status codes as needed
+        }
+      } else {
+        console.error("Network Error:", error.message);
+        // Handle network errors
+      }
     }
   };
 
@@ -228,6 +211,77 @@ const AppProvider = ({ children }) => {
       }
     }
   };
+  const ChangePassword = async (response) => {
+    try {
+      const res = await axios.patch(
+        "http://10.111.10.15:1000/api/v1/users/updatePassword",
+        response
+      );
+
+      if (res.data.status === "success") {
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: res.data.message,
+        });
+        return res.data;
+      } else if (res.data.status === "failed") {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: res.data.message,
+        });
+        return res.data;
+      }
+    } catch (error) {
+      // Check if error response is available and status is 401
+      if ((error.response && error.response.status === 401) || 400) {
+        // You can also check error.response.data.message if API provides specific messages
+
+        return Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: error.response.data.message || "Something went wrong",
+        });
+      }
+    }
+  };
+  const UpdateProfile = async (response) => {
+    try {
+      const res = await axios.patch(
+        `http://10.111.10.15:1000/api/v1/users/profile/${response.id}`,
+        response
+      );
+
+      if (res.data.status === "success") {
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: res.data.message,
+        });
+        FetchUsers();
+        return res.data;
+      } else if (res.data.status === "failed") {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: res.data.message,
+        });
+        return res.data;
+      }
+    } catch (error) {
+      // Check if error response is available and status is 401
+      if ((error.response && error.response.status === 401) || 400) {
+        // You can also check error.response.data.message if API provides specific messages
+
+        return Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: error.response.data.message || "Something went wrong",
+        });
+      }
+    }
+  };
 
   const logout = async () => {
     try {
@@ -249,6 +303,8 @@ const AppProvider = ({ children }) => {
         SignUpUsers,
         GetOPT,
         ResetPassword,
+        ChangePassword,
+        UpdateProfile,
       }}
     >
       {children}

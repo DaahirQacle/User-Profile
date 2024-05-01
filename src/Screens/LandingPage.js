@@ -26,8 +26,6 @@ function LandingPage() {
     getUserToken();
   }, []);
 
-  console.log(holder?.token);
-
   if (holder?.token) {
     return <Welcome />;
   }

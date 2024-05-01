@@ -30,7 +30,7 @@ function SiginUp() {
 
   const handleSignIn = async () => {
     const result = await SignUpUsers(UserInputs);
-    console.log(result);
+
     setTimeout(() => {
       if (result?.status === "success") {
         navigation.navigate("SignIn");

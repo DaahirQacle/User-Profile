@@ -16,7 +16,7 @@ import EmailIcon from "react-native-vector-icons/MaterialCommunityIcons";
 
 function ForgotPassord({ navigation }) {
   const { ResetPassword, User } = useContext(AppContext);
-  console.log(navigation);
+
   const [UserInputs, setUserInputs] = useState({
     confirmPassword: "",
     password: "",
@@ -28,7 +28,7 @@ function ForgotPassord({ navigation }) {
 
   const handleSignIn = async () => {
     const result = await ResetPassword(UserInputs);
-    console.log("from resset password", result);
+
     setTimeout(() => {
       if (result?.status === "success") {
         navigation.navigate("SignIn");

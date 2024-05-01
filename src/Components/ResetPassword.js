@@ -12,6 +12,7 @@ import { AppContext } from "../Context/Provider";
 import { ToastAndroid } from "react-native";
 import { styles } from "../Style/Forget";
 import Icon from "react-native-vector-icons/Octicons";
+
 import EmailIcon from "react-native-vector-icons/MaterialCommunityIcons";
 function ResetPassword({ navigation }) {
   const { GetOPT, User } = useContext(AppContext);
@@ -24,7 +25,6 @@ function ResetPassword({ navigation }) {
   };
   const handleSignIn = async () => {
     const result = await GetOPT(UserInputs);
-    console.log(result);
 
     setTimeout(() => {
       if (result?.status === "success") {
