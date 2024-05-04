@@ -14,7 +14,7 @@ import { styles } from "../Style/Forget";
 import Icon from "react-native-vector-icons/Octicons";
 import EmailIcon from "react-native-vector-icons/MaterialCommunityIcons";
 
-function ForgotPassord({ navigation }) {
+function ForgotPassord({ navigation, route }) {
   const { ResetPassword, User } = useContext(AppContext);
 
   const [UserInputs, setUserInputs] = useState({
@@ -28,7 +28,7 @@ function ForgotPassord({ navigation }) {
 
   const handleSignIn = async () => {
     const result = await ResetPassword(UserInputs);
-
+    console.log(route.params?.phone);
     setTimeout(() => {
       if (result?.status === "success") {
         navigation.navigate("SignIn");
@@ -47,9 +47,12 @@ function ForgotPassord({ navigation }) {
       </View>
       <View style={styles.loginContainer}>
         <Text style={styles.login}>Forget Password</Text>
-        <Text style={styles.welcome}>
-          {" "}
-          Please check your phone for the OTP code.
+        <Text style={[styles.welcome]}>
+          Please check{" "}
+          <Text style={{ color: "#fbbf24", fontSize: 18, fontStyle: "italic" }}>
+            {route.params?.phone}
+          </Text>{" "}
+          for the OTP code.
         </Text>
       </View>
       <View style={styles.loginContainer}>

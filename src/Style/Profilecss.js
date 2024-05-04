@@ -15,6 +15,17 @@ export const styles = StyleSheet.create({
     borderRadius: 65,
     paddingVertical: 100,
   },
+  ViewinputText: {
+    height: 45,
+    // borderColor: "gray",
+    // borderWidth: 1,
+    borderRadius: 6,
+    padding: 10,
+    marginVertical: 10,
+    backgroundColor: "#fff",
+    color: "#000",
+    flexDirection: "row",
+  },
   imageContainer: {
     alignItems: "center",
     justifyContent: "center",

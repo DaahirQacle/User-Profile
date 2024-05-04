@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     // justifyContent: "center",
   },
   loginContainers: {
-    marginTop: "10%",
+    marginTop: "20%",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -41,6 +41,17 @@ export const styles = StyleSheet.create({
     flex: 1,
     height: 1,
     backgroundColor: "white",
+  },
+  ViewinputText: {
+    height: 45,
+    // borderColor: "gray",
+    // borderWidth: 1,
+    borderRadius: 6,
+    padding: 10,
+    marginVertical: 10,
+    backgroundColor: "#fff",
+    color: "#000",
+    flexDirection: "row",
   },
   horizontalLineText: {
     color: "white",

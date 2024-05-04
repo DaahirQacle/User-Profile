@@ -14,17 +14,22 @@ import { styles } from "../Style/Profilecss";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import moment from "moment";
+import EmailIcon from "react-native-vector-icons/MaterialCommunityIcons";
 function Profile({ navigation }) {
   const { UpdateProfile, User } = useContext(AppContext);
   const [isLoggedIn, setIsLoggedIn] = useState({});
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [dobLabel, setDobLabel] = useState("Date of Birth");
   const [UserInputs, setUserInputs] = useState({
     email: "",
-    password: "",
     FullName: "",
-    confirmPassword: "",
     Occupation: "",
     phone: "",
     Address: "",
+    DateOfBirth: "",
+    id: "",
   });
   const getToken = async () => {
     try {
@@ -32,6 +37,9 @@ function Profile({ navigation }) {
       const user = JSON.parse(token);
       setIsLoggedIn(user);
       setUserInputs(user);
+
+      const formattedDate = moment(user?.DateOfBirth).format("YYYY-MM-DD");
+      setDobLabel(formattedDate);
     } catch (error) {}
   };
 
@@ -41,14 +49,36 @@ function Profile({ navigation }) {
 
   const handlePress = (name) => (enterValue) => {
     setUserInputs({ ...UserInputs, [name]: enterValue });
-    // setUserInputs((prevState) => ({
-    //   ...prevState,
-    //   [name]: enterValue,
-    // }));
+  };
+  const showDatePicker = () => {
+    setDatePickerVisibility(!isDatePickerVisible);
   };
 
+  const hideDatePicker = () => {
+    setDatePickerVisibility(!isDatePickerVisible);
+  };
+
+  const handleConfirm = (date) => {
+    const formattedDate = moment(date).format("YYYY-MM-DD");
+    setDobLabel(formattedDate);
+    hideDatePicker();
+  };
+  useEffect(() => {
+    // console.log("A dob Label has been picked: ", dobLabel);
+  }, [dobLabel]);
+
   const handleSignIn = async () => {
-    const result = await UpdateProfile(UserInputs);
+    const data = {
+      email: UserInputs.email,
+      FullName: UserInputs.FullName,
+      Address: UserInputs.Address,
+      Occupation: UserInputs.Occupation,
+      phone: UserInputs.phone,
+      Address: UserInputs.Address,
+      id: UserInputs.id,
+      DateOfBirth: dobLabel,
+    };
+    const result = await UpdateProfile(data);
 
     setTimeout(() => {
       if (result?.status === "success") {
@@ -84,22 +114,7 @@ function Profile({ navigation }) {
           onChangeText={handlePress("email")}
         />
       </View>
-      {/* <View style={styles.loginContainer}>
-        <TextInput
-          style={styles.inputText}
-          placeholder="password"
-          value={ isLoggedIn?.email || UserInputs.password}
-          secureTextEntry={true}
-          onChangeText={handlePress("password")}
-        />
-        <TextInput
-          style={styles.inputText}
-          placeholder="confirm password"
-          value={UserInputs.confirmPassword}
-          secureTextEntry={true}
-          onChangeText={handlePress("confirmPassword")}
-        />
-      </View> */}
+
       <View style={styles.loginContainer}>
         <TextInput
           style={styles.inputText}
@@ -123,6 +138,25 @@ function Profile({ navigation }) {
           onChangeText={handlePress("Address")}
         />
       </View>
+      <View style={styles.loginContainer}>
+        <View style={[styles.ViewinputText, styles.inputText]}>
+          <EmailIcon
+            name="calendar-outline"
+            size={15}
+            color="#ccc"
+            style={{ marginRight: 5, marginTop: 3 }}
+          />
+          <TouchableOpacity onPress={showDatePicker}>
+            <Text> {dobLabel}</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+      />
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleSignIn}>

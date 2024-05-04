@@ -28,7 +28,7 @@ function ResetPassword({ navigation }) {
 
     setTimeout(() => {
       if (result?.status === "success") {
-        navigation.navigate("Forget", { state: { phone: result.phone } });
+        navigation.navigate("Forget", { phone: result.phone });
       }
     }, 2000);
   };

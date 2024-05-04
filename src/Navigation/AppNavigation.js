@@ -15,6 +15,7 @@ import {
   createDrawerNavigator,
 } from "@react-navigation/drawer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SignIn from "../Screens/SignIn";
 import SiginUp from "../Screens/SiginUp";
 import Logout from "../Screens/Logout";
@@ -28,7 +29,41 @@ import ResetPassword from "../Components/ResetPassword";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
+const Tabs = createBottomTabNavigator();
 
+const MayTabs = () => {
+  return (
+    <>
+      <Tabs.Navigator
+        screenOptions={{
+          headerShown: false,
+          // tabBarLabel: false,
+          tabBarShowLabel: false,
+          tabBarStyle: { backgroundColor: "#64748b" },
+        }}
+      >
+        <Tabs.Screen
+          name="Home"
+          component={Home}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="home" size={size} color={"white"} /> // Use Icon component with correct icon name
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="Users"
+          component={Profile}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="user-circle-o" size={size} color={"white"} /> // Use Ionicons component with correct icon name
+            ),
+          }}
+        />
+      </Tabs.Navigator>
+    </>
+  );
+};
 const AuthScreens = () => {
   return (
     <Stack.Navigator>
@@ -60,7 +95,6 @@ const AuthScreens = () => {
     </Stack.Navigator>
   );
 };
-
 const ProtectedScreens = () => {
   const { User } = useContext(AppContext);
   const [isLoggedIn, setIsLoggedIn] = useState({});
@@ -109,7 +143,7 @@ const ProtectedScreens = () => {
                   color: "#111",
                 }}
               >
-                {isLoggedIn?.name}
+                {isLoggedIn?.FullName}
               </Text>
               <Text
                 style={{

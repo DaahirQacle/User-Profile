@@ -70,6 +70,7 @@ export const styles = StyleSheet.create({
     fontWeight: "normal",
     marginVertical: 15,
     color: "white",
+    fontSize: 18,
   },
   login: {
     // fontFamily: "Helvetica",
