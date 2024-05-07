@@ -26,7 +26,7 @@ const AppProvider = ({ children }) => {
       try {
         res = await AsyncStorage.getItem("userToken");
 
-        // dispatch({ type: SIGN_IN_END, payload: { res } });
+        dispatch({ type: SIGN_IN_END, payload: { res } });
         return res;
       } catch (error) {
         console.error("Error retrieving userToken from AsyncStorage:", error);

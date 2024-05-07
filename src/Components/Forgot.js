@@ -69,6 +69,7 @@ function ForgotPassord({ navigation, route }) {
             value={UserInputs.OTP}
             keyboardType="number-pad"
             onChangeText={handlePress("OTP")}
+            maxLength={6}
           />
         </View>
         <View style={styles.ViewinputText}>
